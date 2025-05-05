@@ -102,10 +102,12 @@ export class Caller {
   /**
    * Sign request.
    */
-  private signRequest(payload: Record<string, unknown>): string {
+  public signRequest(payload: Record<string, unknown> | string): string {
+    const str = typeof payload === "object" ? JSON.stringify(payload) : payload;
+
     return crypto
       .createHmac("sha256", this.authorizationOptions.apiSecret)
-      .update(Buffer.from(JSON.stringify(payload), "utf8"))
+      .update(Buffer.from(str, "utf8"))
       .digest("hex")
       .toLowerCase();
   }
