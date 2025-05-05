@@ -1,0 +1,35 @@
+{
+  "name": "@blazepay-oss/blazepay-veriff",
+  "version": "0.0.2",
+  "description": "AI-powered identity verification for Blazepay",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit",
+    "version": "tsc && git add -A -f dist",
+    "postversion": "git push && git push --tags"
+  },
+  "author": "@aimproxy",
+  "license": "GPL-3.0",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "dependencies": {
+    "@types/node": "^20.4.3",
+    "undici": "^7.8.0",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
