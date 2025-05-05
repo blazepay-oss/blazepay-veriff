@@ -1,8 +1,8 @@
 import * as crypto from "node:crypto";
 import * as unidici from "undici";
+import type { AuthorizationOptions } from "./types.ts";
 import type { Dispatcher } from "undici";
 import { Buffer } from "node:buffer";
-import type { AuthorizationOptions } from "./types.ts";
 import { VeriffError } from "./error.ts";
 
 /**
