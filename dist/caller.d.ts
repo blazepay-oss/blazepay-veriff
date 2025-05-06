@@ -14,6 +14,7 @@ export type LoggerOptions = {
  */
 export type CallerOptions = {
     logger?: LoggerOptions;
+    live: boolean;
 };
 /**
  * Caller is responsible for making API calls to the Veriff API.
@@ -21,7 +22,7 @@ export type CallerOptions = {
 export declare class Caller {
     private readonly baseUrl;
     private readonly authorizationOptions;
-    private readonly logger?;
+    private readonly callerOption;
     /**
      * Constructor.
      */

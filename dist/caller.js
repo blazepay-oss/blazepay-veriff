@@ -6,15 +6,15 @@ import { VeriffError } from "./error.js";
  * Caller is responsible for making API calls to the Veriff API.
  */
 export class Caller {
-    baseUrl = "https://api.veriff.me/v1";
+    baseUrl = "https://stationapi.veriff.com";
     authorizationOptions;
-    logger;
+    callerOption;
     /**
      * Constructor.
      */
     constructor(authorizationOptions, callerOptions) {
         this.authorizationOptions = authorizationOptions;
-        this.logger = callerOptions.logger;
+        this.callerOption = callerOptions;
     }
     /**
      * Make request.
@@ -35,7 +35,7 @@ export class Caller {
                 method,
             });
             const endedAt = performance.now();
-            this.logger?.info(`Received response for request ${requestId}`, {
+            this.callerOption.logger?.info(`Received response for request ${requestId}`, {
                 body: response.body,
                 duration: endedAt - startedAt,
                 headers: response.headers,
@@ -51,7 +51,7 @@ export class Caller {
             return responsePayload;
         }
         catch (e) {
-            this.logger?.error(`Request ${requestId} failed with error`, {
+            this.callerOption.logger?.error(`Request ${requestId} failed with error`, {
                 error: e,
                 method,
                 url,
