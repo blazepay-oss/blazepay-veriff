@@ -20,15 +20,16 @@ export type LoggerOptions = {
  */
 export type CallerOptions = {
   logger?: LoggerOptions;
+  live: boolean;
 };
 
 /**
  * Caller is responsible for making API calls to the Veriff API.
  */
 export class Caller {
-  private readonly baseUrl = "https://api.veriff.me/v1";
+  private readonly baseUrl = "https://stationapi.veriff.com";
   private readonly authorizationOptions: AuthorizationOptions;
-  private readonly logger?: LoggerOptions;
+  private readonly callerOption: CallerOptions;
 
   /**
    * Constructor.
@@ -38,7 +39,7 @@ export class Caller {
     callerOptions: CallerOptions
   ) {
     this.authorizationOptions = authorizationOptions;
-    this.logger = callerOptions.logger;
+    this.callerOption = callerOptions;
   }
 
   /**
@@ -67,15 +68,18 @@ export class Caller {
       });
       const endedAt = performance.now();
 
-      this.logger?.info(`Received response for request ${requestId}`, {
-        body: response.body,
-        duration: endedAt - startedAt,
-        headers: response.headers,
-        method,
-        statusCode: response.statusCode,
-        trailers: response.trailers,
-        url,
-      });
+      this.callerOption.logger?.info(
+        `Received response for request ${requestId}`,
+        {
+          body: response.body,
+          duration: endedAt - startedAt,
+          headers: response.headers,
+          method,
+          statusCode: response.statusCode,
+          trailers: response.trailers,
+          url,
+        }
+      );
 
       const responsePayload = await response.body.json();
 
@@ -89,11 +93,14 @@ export class Caller {
 
       return responsePayload;
     } catch (e) {
-      this.logger?.error(`Request ${requestId} failed with error`, {
-        error: e,
-        method,
-        url,
-      });
+      this.callerOption.logger?.error(
+        `Request ${requestId} failed with error`,
+        {
+          error: e,
+          method,
+          url,
+        }
+      );
 
       throw e;
     }
